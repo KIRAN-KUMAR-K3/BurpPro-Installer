@@ -1,149 +1,187 @@
-![Screenshot_2024-09-19_17_45_09](https://github.com/user-attachments/assets/873ef98a-48e0-445b-b5dc-eb5959ad5b34)
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/873ef98a-48e0-445b-b5dc-eb5959ad5b34" width="800" />
+</p>
 
-# <h1 align="center">Burpsuite Professional v2025 latest</h1>
+<h1 align="center">💥 Burp Suite Professional v2025 - Automated Installer</h1>
 
-<p align="center"> Burp Suite Professional is the web security tester's toolkit of choice. Use it to automate repetitive testing tasks - then dig deeper with its expert-designed manual and semi-automated security testing tools. Burp Suite Professional can help you to test for OWASP Top 10 vulnerabilities - as well as the very latest hacking techniques. Advanced manual and automated features empower users to find lurking vulnerabilities more quickly. Burp Suite is designed and used by the industry's best.</p>
+<p align="center">
+  A complete, cross-platform installer for <b>Burp Suite Professional</b> with CLI, GUI (VNC), and loader support.<br>
+  Designed for Pentesters, Bug Bounty Hunters, and Ethical Hackers who want a fast setup ⚡<br><br>
+  <a href="https://portswigger.net/burp/pro">🔗 Official Website</a> • 
+  <a href="https://github.com/KIRAN-KUMAR-K3/BurpPro-Installer">🌐 GitHub Repo</a>
+</p>
 
-<h3 align="center">
+---
 
-[Overview](https://portswigger.net/burp/pro)
-</h3>
- 
-<br></br>
+## 📌 Features
 
-# Linux Installation
-```sh
-wget -qO- https://raw.githubusercontent.com/xiv3r/Burpsuite-Professional/main/install.sh | sudo bash
-```
-## Run
-```sh
+- 🔓 One-click installer for Linux, NixOS, and Windows
+- 🔁 Auto-updater script
+- 🧪 Supports manual license activation (loader support)
+- 🧩 Java version selector
+- 🧙 XFCE launcher creation
+- 🎯 VBS shortcut support for Windows
+- ❌ No root required (except on Linux for install scripts)
+
+---
+
+## 📥 Installation
+
+### 💻 Linux (Debian, Ubuntu, Arch, etc.)
+
+```bash
+wget -qO- https://raw.githubusercontent.com/KIRAN-KUMAR-K3/BurpPro-Installer/main/install.sh | sudo bash
+````
+
+Then run:
+
+```bash
 burpsuitepro
 ```
-<details><summary>
 
-## Update
-</summary>
+<details>
+  <summary><strong>🔄 Update Script</strong></summary>
 
-> optional
-```sh
-cd
+```bash
+cd ~
+rm -rf BurpPro-Installer
+wget -qO- https://raw.githubusercontent.com/KIRAN-KUMAR-K3/BurpPro-Installer/main/update.sh | sudo bash
 ```
-```
-rm -rf Burpsuite-Professional && wget -qO- https://raw.githubusercontent.com/xiv3r/Burpsuite-Professional/refs/heads/main/update.sh | sudo bash
-```
+
 </details>
 
-<details><summary>
- 
-## Java Version
-</summary>
+<details>
+  <summary><strong>☕ Java Version Selector</strong></summary>
 
-> select the default java version
-```sh
+```bash
 sudo update-alternatives --config java
-```               
+```
+
 </details>
 
-## Setup Licenses
+---
 
-<div align="center">
- 
-https://github.com/xiv3r/Burpsuite-Professional/assets/117867334/c25831a4-68a2-44ee-b6dd-5ff18165f340
-</div>
- 
-Note: Copy the license from loader to the burpsuite > manual activation > copy burpsuite request key to loader request >  copy response key to the burpsuite.
+## 🔐 Manual License Activation (Loader)
 
-<br>
+> After launching Burp, go to **Manual Activation** → Copy the request key into `loader.jar` → Paste response key back into Burp.
 
-## Shortcut Launcher - (xfce)
-right click the desktop -> create a launcher name it Burpsuite Professional, add command `burpsuitepro` and select burpsuite community icon.
+> Video Guide:
+> [https://github.com/KIRAN-KUMAR-K3/BurpPro-Installer/assets/117867334/c25831a4-68a2-44ee-b6dd-5ff18165f340](https://github.com/KIRAN-KUMAR-K3/BurpPro-Installer/assets/117867334/c25831a4-68a2-44ee-b6dd-5ff18165f340)
 
-<div align="center">
- <img width="500" height="500" src="https://github.com/xiv3r/Burpsuite-Professional/blob/main/Launcher.jpg">
-</div>
+---
 
----------
+## 🧭 Linux Desktop Launcher (XFCE)
 
-# NixOS Installation
-## Add this repo's flake to your flake inputs
-```
-# flake.nix
+1. Right-click desktop → "Create Launcher"
+2. Name: `Burp Suite Professional`
+3. Command: `burpsuitepro`
+4. Choose icon: `burp-suite.ico`
+
+<p align="center">
+  <img src="https://github.com/KIRAN-KUMAR-K3/BurpPro-Installer/blob/main/Launcher.jpg" width="450">
+</p>
+
+---
+
+## 🧊 NixOS Installation (flake)
+
+### Add this repo to your flake inputs:
+
+```nix
 {
-  # ...
   inputs = {
     burpsuitepro = {
       type = "github";
-      owner = "xiv3r";
-      repo = "Burpsuite-Professional";
+      owner = "KIRAN-KUMAR-K3";
+      repo = "BurpPro-Installer";
       inputs.nixpkgs.follows = "nixpkgs";
     };
   };
-  # ...
 }
 ```
 
-## Installing the package provided by the flake
-### You can install it with either `environment.systemPackages` or `home.packages`
-> With `environment.systemPackages` (nixosModules)
+### Use with `environment.systemPackages` or `home.packages`:
 
-  ```
-    { inputs, ... }: {
-      environment.systemPackages = [
-        inputs.burpsuitepro.packages.${system}.default
-      ];
-    }
-  ```
+```nix
+{
+  environment.systemPackages = [
+    inputs.burpsuitepro.packages.${system}.default
+  ];
+}
+```
 
-> With `home.packages` (home-manager)
- ```
-    { inputs, ... }: {
-      home.packages = [
-        inputs.burpsuitepro.packages.${system}.default
-      ];
-    }
-  ```
+```nix
+{
+  home.packages = [
+    inputs.burpsuitepro.packages.${system}.default
+  ];
+}
+```
 
-NOTE: `loader.jar` is symlinked to `burpsuite.jar` so burpsuite recognizes the license keys. You can access the `loader` command from the terminal only
+> Note: `loader.jar` is symlinked to `burpsuite.jar`
 
+---
 
-# Windows Installation
+## 🪟 Windows Installation
 
-<br>
- 
-- Make a `Burp` directory name in `C Drive` for faster access.
+1. Create a folder: `C:\Burp`
+2. [Download ZIP](https://github.com/KIRAN-KUMAR-K3/BurpPro-Installer/archive/refs/heads/main.zip) and extract to `C:\Burp`
+3. Open PowerShell (Admin) and run:
 
-- Download [install.ps1](https://codeload.github.com/xiv3r/Burpsuite-Professional/zip/refs/heads/main) and extract move the file inside to `C:\Burp`
+```powershell
+Set-ExecutionPolicy -ExecutionPolicy Bypass -Scope Process
+cd C:\Burp
+./install.ps1
+```
 
-- Open `Powershell` as administrator and execute below command to set Script Execution Policy.
+4. Set the icon: Right-click `Burp-Suite-Pro.vbs` → Properties → Shortcut tab → Change Icon → `burp-suite.ico`
+5. (Optional) Move shortcut to:
 
+```txt
+C:\ProgramData\Microsoft\Windows\Start Menu\Programs\
+```
 
-      Set-ExecutionPolicy -ExecutionPolicy bypass -Scope process
+<p align="center">
+  <img src="https://user-images.githubusercontent.com/29830064/230825172-16c9cfba-4bca-46a4-86df-b352a4330b12.png" width="700">
+</p>
 
-- Inside PowerShell go to `cd C:\Burp`
+---
 
-- Now Execute `install.ps1` file in Powershell to Complete Installation.
+## 📁 Project Structure
 
-      ./install.ps1
- 
-- Change the icon of `Burp-Suite-Pro.vbs` to the given icon 
+```
+BurpPro-Installer/
+├── install.sh
+├── update.sh
+├── install.ps1
+├── loader.jar
+├── burp_suite.ico
+├── Burp-Suite-Pro.vbs
+└── Launcher.jpg
+```
 
-- Create a shortcut to Desktop. Right Click over `Burp-Suite-Pro.vbs` Go to Shortcut tab, and below there is `Change Icon` tab
+---
 
-- Click there and choose the `burp-suite.ico` from `C:\Burp\`
+## 🤝 Credits
 
-   <div align="center">
-    
-    <img src="https://user-images.githubusercontent.com/29830064/230825172-16c9cfba-4bca-46a4-86df-b352a4330b12.png">
-</div>
+<details>
+<summary>Click to Expand</summary>
 
-- For Start Menu Entry, copy `Burp-Suite-Pro.vbs` file to 
-
-      C:\ProgramData\Microsoft\Windows\Start Menu\Programs\
-
-
- <details><summary>Credit</summary>
-
-* Loader.jar 👉 [h3110w0r1d-y](https://github.com/h3110w0r1d-y/BurpLoaderKeygen)
-* Script 👉 [cyb3rzest](https://github.com/cyb3rzest/Burp-Suite-Pro)
+* Loader by: [h3110w0r1d-y](https://github.com/h3110w0r1d-y/BurpLoaderKeygen)
+* Base script by: [cyb3rzest](https://github.com/cyb3rzest/Burp-Suite-Pro)
 
 </details>
+
+---
+
+## 📜 License
+
+This project is licensed under the **MIT License**.
+
+> ⚠️ **Disclaimer:** This repository is for educational & research purposes only. Do not use on unauthorized systems.
+
+---
+
+<p align="center">
+  Made with ❤️ by <a href="https://github.com/KIRAN-KUMAR-K3">Kiran Kumar K</a>
+</p>
